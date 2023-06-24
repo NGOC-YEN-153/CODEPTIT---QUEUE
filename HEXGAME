@@ -1,0 +1,101 @@
+#include <iostream>
+#include <unordered_map>
+#include<queue>
+#include<string>
+using namespace std;
+string dich= "1238004765" , nguon;
+inline void inp(){
+	nguon = "";
+	int t = 10 ;
+	while(t--){
+		string x;
+		cin >> x;
+		nguon+=x;
+	}
+}
+inline string qx1(string s) {
+	char tmp = s[3];
+	s[3] = s[7];
+	s[7] = s[8];
+	s[8] = s[5];
+	s[5] = s[1];
+	s[1] = s[0];
+	s[0] = tmp;
+	return s;
+}
+inline string qx2(string s) {
+	char tmp = s[6];
+	s[6] = s[2];
+	s[2] = s[1];
+	s[1] = s[4];
+	s[4] = s[8];
+	s[8] = s[9];
+	s[9] = tmp;
+	return s;
+}
+inline string qn1(string s) {
+	char tmp = s[0];
+	s[0] = s[1];
+	s[1] = s[5];
+	s[5] = s[8];
+	s[8] = s[7];
+	s[7] = s[3];
+	s[3] = tmp;
+	return s;
+}
+inline string qn2(string s) {
+	char tmp = s[1];
+	s[1] = s[2];
+	s[2] = s[6];
+	s[6] = s[9];
+	s[9] = s[8];
+	s[8] = s[4];
+	s[4] = tmp;
+	return s;
+}
+inline void solve(){
+	inp();
+	queue<string> q1,q2;
+	unordered_map<string,bool> mp1 , mp2;
+	int step = 0;
+	q1.push(nguon);
+	q2.push(dich);
+	mp1[nguon] = true;
+	mp2[dich] = true;
+	while(1){
+		int tmp1 = q1.size();
+		while(tmp1--){
+			string x = q1.front(); q1.pop();
+			if(mp2[x]){
+			cout<<step <<"\n";
+			return;
+			}
+			string y = qx1(x) , z = qx2(x);
+			if(!mp1[y])mp1[y] = true , q1.push(y);
+			if(!mp1[z])mp1[z] = true , q1.push(z);
+		}
+		++step;
+		//
+		int tmp2 = q2.size();
+		while(tmp2--){
+			string x = q2.front(); q2.pop();
+			if(mp1[x]){
+			cout<<step <<"\n";
+			return;
+			}
+			string y = qn1(x) , z = qn2(x);
+			if(!mp2[y])mp2[y] = true , q2.push(y);
+			if(!mp2[z])mp2[z] = true , q2.push(z);
+		}
+		++step;
+	}
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    int t=1;
+    cin >>t;
+    while(t--){
+    	solve();
+	}
+}
