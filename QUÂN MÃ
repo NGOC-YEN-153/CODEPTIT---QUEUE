@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+int a[9][9] , s, t  ;
+int dx[] ={-2 , -1 , 1  ,2 , 2 ,1 ,-1, -2} , dy[] = { 1 ,2 , 2 ,1 , - 1 ,-2 , -2 , -1};
+void bfs(int u , int v ,int thuong){
+	queue<pair<ii,int>> q;
+	q.push({{u , v} , 0});
+	a[u][v] = 1;
+	while(q.size()){
+		auto x = q.front();q.pop();
+		auto i = x.first.first, j = x.first.second , w = x.second;;
+
+		if(i == s && j == t){
+			cout<<w<<endl;
+			return;
+		}
+		for(int k = 0 ; k<8 ; k++){
+			int I = i + dx[k] , J = j +dy[k];
+			if(  I>=1 && I<= 8 &&  J>=1 && J <= 8 && !a[I][J])a[i][j] = 0 , q.push({{I,J} , w +1});
+		}
+	}
+}
+void solve(){
+	char e , d;
+	int x , y;
+	cin >>e>>x >>d >>y;
+	for(int i= 1 ;i<=8; i++){
+		for(int j=1 ; j<= 8 ;j++)a[i][j] = 0;
+	}
+	//
+	int i , j ;
+if(e == 'a')i = 1;
+	else	if(e == 'b')i = 2;
+else 	if(e == 'c') i =3;
+	 else if(e == 'd') i = 4;
+else 	if(e == 'e') i = 5;
+else 	if(e == 'f') i = 6;
+	else if(e == 'g') i = 7;
+	else if(e == 'h') i = 8;
+	//
+	if(d == 'a') j = 1 ;
+else	if(d == 'b') j = 2;
+else	if(d == 'c') j = 3;
+	else if(d == 'd') j = 4;
+	else if(d == 'e') j = 5;
+	else if(d == 'f') j = 6;
+	else if(d == 'g') j = 7;
+	else if(d == 'h') j = 8;
+	s= j ; t = y;
+	bfs(i,x,0);
+}
+int main(){
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+   int t;
+   cin >>t;
+   while(t--)solve();
+}
