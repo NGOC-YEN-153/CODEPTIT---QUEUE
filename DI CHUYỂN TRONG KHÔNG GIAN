@@ -1,0 +1,58 @@
+#include<iostream>
+#include<queue>
+#include<cstring>
+using namespace std;
+int dx[6] = {-1,1,0,0,0,0} , dy[6] = {0,0,0,1,0,-1} , dz[6] = {0,0,1,0,-1,0} ;
+struct sv{
+    int i,j,k;
+};
+bool used[30][30][30];
+inline void solve(){
+    int A , B  , C;
+    cin >> A >> B >> C;
+    char a[A][B][C];
+    int x1,y1,z1,x2,y2,z2;
+    for(int i =0 ; i < A ; i++){
+        for(int j =0 ; j  < B ; j++){
+            for(int k = 0 ; k < C ; k++){
+                cin >>a[i][j][k];
+                if(a[i][j][k] == 'S')a[i][j][k] = '.' , x1 = i , y1 = j , z1 = k;
+                else if(a[i][j][k] =='E')a[i][j][k] = '.' , x2 = i , y2 = j , z2 = k;
+            }
+        }
+    }
+    memset(used,false,sizeof(used));
+    queue<sv> q;
+    sv yen;
+    yen.i = x1;yen.j = y1 , yen.k = z1;
+    q.push(yen);
+    used[x1][y1][z1] = true;
+    int step = 0;
+    while(q.size()){
+    int tmp = q.size();
+        while(tmp--){
+            auto x = q.front() ; q.pop();
+            if(x.i == x2 && x.j == y2 && x.k == z2){
+                cout<<step<<"\n";
+                return;
+            }
+            for(int k =0 ; k< 6 ; k++){
+                int I = x.i + dx[k] , J = x.j + dy[k] , Z = x.k + dz[k];
+                if( I >= 0 && J >= 0 && Z >= 0 && I <A && J < B && Z < C && !used[I][J][Z] && a[I][J][Z] == '.'){
+                    used[I][J][Z] = true;
+                    sv mot{I,J,Z};
+                    q.push(mot);
+                }
+            }
+        }
+        step++;
+    }
+    cout<<-1<<"\n";
+}
+int main(){
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    int t  = 1;
+     cin >> t ;
+    while(t--)solve(); 
+}
