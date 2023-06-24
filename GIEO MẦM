@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+int dx[4] = {-1,0,1,0} , dy[4] = {0,1,0,-1};
+void solve(){
+    int n , m;
+    cin >> n >> m;
+    int A[n][m];
+    int dmam = 0;
+    for(int i = 0  ; i < n; i++){
+        for(int j =0 ; j < m ; j++){
+            cin >>A[i][j];
+            if(A[i][j]==1)dmam++;
+        }
+    }
+    queue<pair<int,int>> q;
+    for(int i =0 ;i< n; i++){
+    	for(int j= 0 ;j< m;j++){
+    		if(A[i][j] == 2)q.push({i,j});
+		}
+	}
+    int cnt = 0;
+    while(q.size()){
+        int tmp = q.size();
+        int ok = 0;
+        while(tmp--){
+        	auto x = q.front() ; q.pop();
+        	auto i = x.first , j = x.second;
+        	for(int k = 0; k< 4 ;k++){
+        		int I = i+dx[k] , J = j + dy[k];
+        		if(I>= 0 && I < n && J >= 0 && J < m && A[I][J]==1)q.push({I,J}) , A[I][J] = 2 , ok = 1,dmam--;
+			}
+		}
+		if(ok)cnt++;
+	}
+    if(dmam)cout<<-1<<endl;
+	else cout<<cnt<<endl;
+}
+int main(){
+    ios_base::sync_with_stdio(0); cin.tie(NULL);cout.tie(NULL);
+    int t ;
+    cin >> t ;
+    while(t--)solve(); 
+}
