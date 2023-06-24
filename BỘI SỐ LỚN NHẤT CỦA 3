@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ii pair<int,int>
+void inkq(int a[] , int n){
+	int ok = 0;
+	for(int i = 1 ; i<= n ;i++){
+		if(a[i] != -1)cout<<a[i] , ok = 1;
+	}
+	if(!ok)cout<<-1;
+	cout<<endl;
+}
+void solve(){
+	int n ;
+	cin >>n ;
+	int a[n +1];
+	int sum = 0;
+	int du[3];
+	for(int i = 0 ; i< 3 ; i++)du[i] = 0;
+	for(int i = 1  ; i <= n;i++){
+		cin >>a[i] ;
+		sum +=a[i] ;
+	}
+	sort(a+1,a+n+1 , greater<int>());
+	for(int i=1 ; i<= n; i++){
+		du[a[i] % 3] = i;
+	}
+	if(sum %3 == 0){
+		inkq(a,n);
+		return;
+	}
+	if( sum %3 == 1){
+		if(du[1]){
+			a[du[1]] = -1;
+			inkq(a,n);
+			return;
+		}
+		else {
+			if(du[2]){
+				for(int j = du[2] - 1 ; j>= 1 ; j--){
+					if(a[j] %3 == 2){
+						a[j] = -1 ; a[du[2]] =-1  ; inkq(a,n);return;
+					}
+				}
+			}
+		}
+	}
+    else if( sum %3 == 2){
+		if(du[2]){
+			a[du[2]] = -1;
+			inkq(a,n);
+			return;
+		}
+		else {
+			if(du[1]){
+				for(int j = du[1] - 1 ; j>= 1 ; j--){
+					if(a[j] %3 == 1){
+						a[j] = -1 ; a[du[1]] =-1  ; inkq(a,n);return;
+					}
+				}
+			}
+		}
+	}
+	cout<<-1<<endl;
+}
+int main(){
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+   int t;  cin >>t;
+   while(t--)solve();
+}
